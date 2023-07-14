@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misam</title>
+    <link rel="icon" type="image/x-icon" href="../assets/misam-favicon.png">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../styles/api.css">
+</head>
+<body>
+    <section id="header">
+        <div class="navbar">
+            <div class="navbar-content">
+                <div class="nav-logo">
+                    <img src="../assets/misam.png" alt="misam-logo">
+                </div>
+                <div class="nav-items">
+                    <ul>
+                        <li><a href="../index.html">Əsas</a></li>
+                        <li><a href="./about.html">Haqqımızda</a></li>
+                        <li><a href="../index.html">Xidmətlər</a></li>
+                        <li><a href="../index.html">Əlaqə</a></li>
+                        <li><a href="./api.html">APİ</a></li>
+                        <li><a href="./messaging.html">Mesajlaşma</a></li>
+                    </ul>
+                </div>
+                 <!-- Sidebar on Adaptive Version -->
+                <div class="sidebar" id="sidebar">
+                    <div class="menu-group">
+                        <div  id="menu"></div>
+                        <div  id="menu"></div>
+                        <div  id="menu"></div>
+                    </div>
+                    
+                    <div id="active"  class="action-menu">
+                        <ul>
+                            <li><a href="../index.html">Əsas</a></li>
+                            <li><a href="./about.html">Haqqımızda</a></li>
+                            <li><a href="../index.html">Xidmətlər</a></li>
+                            <li><a href="../index.html">Əlaqə</a></li>
+                            <li><a href="./api.html">APİ</a></li>
+                            <li><a href="./messaging.html">Mesajlaşma</a></li>
+                            </ul>
+                        <div class="sidebar-logo">
+                            <img class="sidebar-logo-img" src="../assets/misam.png" alt="">
+                        </div>
+                        <div class="sidebar-contact">
+                            <div class="mail-sidebar">Mail to: <span><a href="mailto:info@stertell.com">info@stertell.com</a></span></div>
+                            <div class="phone-sidebar">Mobile : +35724022449</div>
+                            <div class="location-sidebar">R.Behbudov. AF Otel Plaza 4-cu mərtəbə, Baku, Azerbaijan</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-language">
+                    <div class="language-logo">
+                        <img src="../assets/speak.png" alt="seleted-language-icon">
+                    </div>
+                    <div class="language-selected">English</div>
+                    <div class="language-arrow">
+                        <img src="../assets/down.png" alt="down-arrow">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="api">
+        <div class="api-container">
+            <h1>SMS HTTP API</h1>
+            <div class="">
+                <h3>Request format:</h3>
+                <p>GET request to HTTP port: <br> http://1.1.1.1:8001/api?username=<username>&password=<password>&ani=<ani>&dnis=<dnis>&message=<message>&command=submit&serviceType=<serviceType>&longMessageMode=<longMessageMode></longMessageMode></p>
+                <p>GET request to HTTPs port: <a href="https://domainname:8002/api?username=">https://domainname:8002/api?username=</a><username>&password=<password>&ani=<ani>&dnis=<dnis>&message=<message>&command=submit&serviceType=<serviceType>&longMessageMode=<longMessageMode></p>
+                <p>POST request (credentials are part of the link) to HTTP port: curl -H 'Content-Type: application/json' -X POST -d '{"ani":"ani","dnis":"dnis","message":"test"}' <a href="http://1.1.1.1:8001/api?command=submit&username=username&password=password">'http://1.1.1.1:8001/api?command=submit&username=username&password=password'</a></p>
+                <p>POST request (credentials are a part of the JSON body) to HTTP port: curl -H 'Content-Type: application/json' -X POST -d '{"username":"username","password":"password","command":"submit","ani":"ani","dnis":"dnis","message":"test"}' <a href="http://1.1.1.1:8001/api?">'http://1.1.1.1:8001/api?'</a></p>
+                <p><b>NOTE:</b> To send multiple SMS messages, add several comma-separated DNIS to the <dnis> field.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Value</th>
+                            <th>Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><p>command</p></td>
+                            <td><p>Request type. Possible values: “submit”, "query", "mo". To send a message over HTTP, specify command=submit</p></td>
+                            <td><p>Yes</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>dnis:</p></td>
+                            <td><p>Destination number. Must be sent in international E.164 format (up to 15 digits allowed). If the field length exceeds 2048 symbols or 100 numbers, the incoming message will be rejected with the following code: 400 Bad Request (Destination number is too long). Multiple DNIS's cannot be used for longMessageMode=split_or_payload</p><p>If multiple identical numbers are transferred in the field, the duplicates will not be sent further, even though message IDs will be issued for all successfully routed messages.</p></td>
+                            <td><p>Yes</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>message:</p></td>
+                            <td><p>Message text</p></td>
+                            <td><p>Yes</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>password:</p></td>
+                            <td><p>Password</p></td>
+                            <td><p>Yes</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>serviceType:</p></td>
+                            <td><p>Service type, provided by the System owner for the registered interconnection. Can be blank. The maximum length is 9 bytes.</p></td>
+                            <td><p>Yes</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>username:</p></td>
+                            <td><p>Login</p></td>
+                            <td><p>Yes</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>ani:</p></td>
+                            <td><p>Caller ID. Technical limitation - alpha-numeric up to 32 symbols. Additional limitations can be caused by destination route peculiarities</p></td>
+                            <td><p>No</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>dataCoding</p></td>
+                            <td><p>data coding scheme for sending the SMPP to the vendor. Format: integer. Optional. Allowed values are: 0, 1, 3, 6, 7, 8, 10, 14, where:</p><i>0: SMSC Default Alphabet (SMPP 3.4)/MC Specific (SMPP 5.0)
+                                1: IA5 (CCITT T.50)/ASCII (ANSI X3.4) <br>                                
+                                3: Latin 1 (ISO-8859-1)<br>                                
+                                6: Cyrillic (ISO-8859-5) <br>                                
+                                7: Latin/Hebrew (ISO-8859-8)  <br>                               
+                                8: UCS2 (ISO/IEC-10646)     <br>                           
+                                10: ISO-2022-JP (Music Codes) <br>                               
+                                14: KS C 5601</i><p></p></td>
+                            <td><p>No</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>esmClass</p></td>
+                            <td><p>corresponds to the same name parameter in SMPP. Format: integer. Optional. Allowed values are: 0-255</p></td>
+                            <td><p>No</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>flash</p></td>
+                            <td><p>Flag that indicates a flash message. Possible values are: 0 (regular message) and 1 (flash message that is shown on the screen and is not stored in the device memory). Please note that the flag is merely written to the EDR (Technical details field) and does not change the message data coding. The flag value can be transmitted for MT message sending. The flag can also be changed with the help of translation rules.</p></td>
+                            <td><p>No</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>longMessageMode:</p></td>
+                            <td><p>Type of long message processing. The following values allowed:</p><p>cut (trim message text to 140 bytes) - shortens the message leaving only first 140 bytes to be sent.</p><p>split and split_sar - split the message according to the logics described below. The difference between them is in the header to be used, for split it is UDH header, for split_sar it is sar accordingly.</p><p>single_id_split - split the message but return the message ID common for all segments</p><p>payload - message_payload field is used for sending the message text</p><p>The splitting (options 2/3) depends on the coding:</p><p>"- dataCoding = 0, 1 or 3: one message can contain up to 160 bytes. If more: segment count = 'message length in symbols / 153 symbols' (or: 'message length in bytes / 153 bytes')</p><p>- dataCoding 2, 4 - 7: one message can contain up to 140 bytes, if more – segment count = 'message length in symbols / 134 symbols' (or: 'message length in bytes / 134 bytes')</p><p>- dataCoding 8: one message can contain up to 140 bytes, if more – segment count = 'message length in symbols / 67 symbols' (as 1 symbol occupies 2 bytes, that is: 'message length in bytes / 134 bytes')</p><p>split_or_payload: serves for sending long messages received over HTTP to SMPP vendors. The mode is not supported if several numbers have been received in the dnis parameter within a single request from the client. When the Send text in payload option is enabled in the vendor channel, the message will be sent in the payload field as a single submit_sm packet. Also, a single delivery report is expected for it, whereas the client will be sent as many reports as the number of received parts. Besides, a single EDR will be written, therefore, the bill by segments option must be set in the client product for correct billing of the client.</p><p>The default value is "cut".</p></td>
+                            <td><p>No</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>incMsgId (inc_msg_id)</p></td>
+                            <td><p>The client message ID (64 symbols maximum) that can be used for incoming HTTP requests with longMessageMode=cut, longMessageMode=split, longMessageMode=split_sar or no longMessageMode (which equals to longMessageMode=cut). When the SMS switch receives this parameter it will use its value as a client ID. This will allow clients to use their ID to request information on the message if, for example, no routes are available.</p><p>In case of long messages (when longMessageMode=split or longMessageMode=split_sar), the incoming parameter inc_msg_id will be one and the same for the entire message, whereas the SMS switch will split the message into several parts and use the same ID for each part, adding the part number to each of them. For example, if a message contains two parts and has the incoming message ID is inc_msg_id=1gfc4dd56cbndcj741xs, the SMS switch will process the messages with IDs 1gfc4dd56cbndcj741xs-1 and 1gfc4dd56cbndcj741xs-2.</p></td>
+                            <td><p>No</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>srcTon, srcNpi, dstTon, dstNpi</p></td>
+                            <td><p>the respective parameters for Sender ID and Destination number. Format: integer. Optional</p></td>
+                            <td><p>No</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>priorityFlag</p></td>
+                            <td><p>corresponds to the same name parameter in SMPP. Format: integer. Optional. Allowed values are: 0 and 1</p></td>
+                            <td><p>No</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>registeredDelivery</p></td>
+                            <td><p>corresponds to the same name parameter in SMPP. Format: integer. Optional. Allowed values are: 0 and 1</p></td>
+                            <td><p>No</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>replaceIfPresentFlag</p></td>
+                            <td><p>corresponds to the same name parameter in SMPP. Format: integer. Optional. Allowed values are: 0 and 1</p></td>
+                            <td><p>No</p></td>
+                        </tr>
+                        <tr>
+                            <td><p>silent</p></td>
+                            <td><p>Flag that allows sending silent SMS (message that arrives with no sound and is not displayed on the screen)</p><p>Allowed values are: 0 and 1, where 0 means NOT silent. Any value other than 0 which has been set explicitly is treated as true, for example, silent=false is interpreted as silent=1.</p><p>Whether the silent SMS arrives as a silent one to the end user depends on the vendor and the other carriers that handle it.</p></td>
+                            <td><p>No</p></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="">
+                <h3>Response format</h3>
+                <p>In case of successful processing, the status in the header of the HTTP response is 200 OK. Response body contains the message_id.</p>
+                <p>Sample of a response in JSON format:</p>
+                <p>
+                    HTTP/1.1 200 OK <br>
+                    Content-Type: application/json <br><br>
+                    {"message_id":"alss-a1b2c3d4-e5f67890"}
+                </p>
+                <p>In case</p>
+                <p>
+                    1) the request contains more than one DNIS (comma-separated) <br>
+                    2) the longMessageMode=split/split_sar and the message is longer than 160/70 symbols (GSM/Unicode respectively),
+                </p>
+                <p>the response will look as follows:</p>
+                <p>
+                    HTTP/1.1 200 OK <br>
+                    Content-Type: application/json <br> <br>
+                    [{"dnis":"34511121","message_id":"5b4c46a8-8dc9-44b4-f55f-3bef56819305", <br> <br>
+                    "segment_num":"1"},{"dnis":"34511121", <br><br>
+                    "message_id":"5b4c46a8-46bc-7ee6-4a16-7d4e5a0d14af","segment_num":"2"}]
+                </p>
+                <p>In case of rejected SMS (for example, no compatible routes found), the HTTP response status is - 400  Bad Request. The response body contains a string describing the reason for rejection, for example NO ROUTES.</p>
+                <p>
+                    HTTP/1.1 400  Bad Request <br>
+                    Content-Type: text/html; charset=UTF-8 <br><br>
+                    NO ROUTES
+                </p>
+                <p>In case an incorrect user name or password is provided, the HTTP status is 401 Unauthorized. The response body contains the string describing the reason for rejection.</p>
+                <p>
+                    HTTP/1.1 401 Unauthorized <br>
+                    Content-Type: text/html; charset=UTF-8 <br><br>
+                    not authorized (check login and password)
+                </p>
+                <p>If the service_type field exceeds 6 bytes, the response will look as follows:</p>
+                <p>
+                    HTTP/1.1 400 Bad request\n <br>
+                    Content-Type: text/html; charset=UTF-8\n <br>
+                    Service type is invalid\n
+                </p>
+                <p>If a message is considered a loop in accordance with the Loop Detection functionality, the response will be as follows:</p>
+                <p>
+                    HTTP/1.1 508 Loop Detected <br>
+                    Content-Type: text/html; charset=UTF-8 <br>
+                    loop detected
+                </p>
+            </div>
+            <div class="">
+                <h1>SMS status request</h1>
+                <p>The links below are intended for request of delivery reports over HTTP from the client side.</p>
+                <h3>Request format:</h3>
+                <a href="http://1.1.1.1:8001/api?username=<username>&password=<password>">http://1.1.1.1:8001/api?username=<username>&password=<password></password></a><p>&messageId=<messageId>&command=query</p>
+                <a href="http://1.1.1.1:8001/api?username=<username>&password=<password>">http://1.1.1.1:8001/api?username=<username>&password=<password></password></a><p>&messageId=<messageId>&command=query</p>
+                <h3>Parameters:</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>username:</th>
+                            <th>Login</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>password:</td>
+                            <td>Password</td>
+                        </tr>
+                        <tr>
+                            <td>messageId:</td>
+                            <td>Message identifier received with the submission response</td>
+                        </tr>
+                        <tr>
+                            <td>command:</td>
+                            <td>Request type. Must be set to “query” value</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>All parameters are obligatory.</p>
+                <h3>Response format:</h3>
+                <p>In case of successful processing, the status in the header of the HTTP response is 200 OK. The response body contains the one of the following possible values:</p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>ENROUTE:</td>
+                            <td>Message is in routing stage. The status can be returned to the client if the message is in the SENT status</td>
+                        </tr>
+                        <tr>
+                            <td>DELIVRD:</td>
+                            <td>Message is delivered to the Subscriber</td>
+                        </tr>
+                        <tr>
+                            <td>EXPIRED:</td>
+                            <td>Message storage period expired</td>
+                        </tr>
+                        <tr>
+                            <td>DELETED:</td>
+                            <td>Message was deleted</td>
+                        </tr>
+                        <tr>
+                            <td>UNDELIV:</td>
+                            <td>Message cannot be delivered</td>
+                        </tr>
+                        <tr>
+                            <td>ACCEPTD:</td>
+                            <td>Message is accepted by SMSC</td>
+                        </tr>
+                        <tr>
+                            <td>UNKNOWN:</td>
+                            <td>Unknown message status. Information on statuses is stored in the in-memory database for 24 hours (by default). Therefore, this status may be returned if the client has requested a status quite late and it was already removed from the memory.</td>
+                        </tr>
+                        <tr>
+                            <td>REJECTD:</td>
+                            <td>Message was rejected by SMSc. The status can also be returned for internal failed statuses, for example, for the NO ROUTES status.</td>
+                        </tr>
+                        <tr>
+                            <td>IM_EXPD</td>
+                            <td>Delivery report was not received from the IM provider within the im_ttl timeout</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>Response sample:</p>
+                <p>
+                    HTTP/1.1 200 OK <br>
+                    Content-Type: application/json <br> <br>
+                    {"status": "DELIVRD", "delivery_time": "20210922093309", "mccmnc": "214099", "error_code": "000", "system_delivery_time": "210922093309"}
+                </p>
+                <p>where delivery_time is the done date received from the vendor (if not received the field will be empty); mccmnc is the E212 code; error_code is the delivery error code; system_delivery_time is the delivery report receipt time by the System (in the format YYMMDDHH24MISS, for example, 210325153842).</p>
+                <p>The status can be requested within 24 hours after the message submission.</p>
+                <p>In case the message with the requested message ID is not found the response HTTP status is 200 OK. The response body contains the error description in the “status” field:</p>
+                <p>
+                    HTTP/1.1 200 OK <br>
+                    Content-Type: application/json <br><br>
+                    {"status": "UNKNOWN", "delivery_time": "", "mccmnc": ""}
+                </p>
+                <p>In case an incorrect user name or password is provided, the HTTP status is 401 Unauthorized. The response body contains the string describing the reason for rejection.</p>
+                <p>
+                    HTTP/1.1 401 Unauthorized <br>
+                    Content-Type: text/html; charset=UTF-8 <br><br>
+                    not authorized (check login and password)
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="footer">
+        <div class="footer">
+            <div class="footer-container">
+                <div class="footer-logo">
+                    <img src="../assets/misam.png" alt="footer-logo">
+                    <div class="footer-input responcive-footer-title">
+                        <div class="footer-input-text">
+                            <i class="fa-solid fa-phone"></i>
+                            <input type="number" placeholder="35724022449">
+                        </div>
+                        <button>Enquire Now</button>
+                    </div>
+                </div>
+                <div class="">
+                    <div class="footer-title responcive-footer-title">About</div>
+                    <div class="footer-item-group">
+                        <div class="footer-item-left">
+                            <ul>
+                                <li><a href="../index.html">Əsas</a></li>
+                                <li><a href="./about.html">Haqqımızda</a></li>
+                                <li><a href="">Xidmətlər</a></li>
+                                <li><a href="../index.html">Contact</a></li>
+                                <li><a href="./api.html">API</a></li>
+                            </ul>
+                        </div>
+                        <!-- <div class="footer-item-right">
+                            <ul>
+                                <li><a href="">Pricing</a></li>
+                                <li><a href="">Blog</a></li>
+                                <li><a href="#contact">Contact</a></li>
+                            </ul>
+                        </div> -->
+                    </div>
+                </div>
+                    <div class="footer-right-l">
+                        <div class="footer-title mT-footer">Information</div>
+                        <div class="footer-item">
+                            <div class="footer-item-about">İş günləri: 09AM - 8PM</div>
+                            <div class="footer-item-about">Şənbə: 19AM - 6PM</div>
+                            <div class="footer-item-about">Bazar günü: Closed</div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="footer-title mT-footer">Location</div>
+                        <div class="footer-item">
+                            <div class="footer-item-about">Adress: Turbada, 11, Lecco (LC), <br>
+                                23900, Italia
+                            </div>
+                            <div class="footer-item-about">
+                                R. Behbudov. AF Hotel Plaza 4th floor, <br>
+                                Baku, Azerbaijan
+                            </div>
+                        </div>
+                    </div>    
+            </div>
+            <div class="footer-bottom">
+                <div class="social-media-line"></div>
+                <div class="social-media-group">
+                    <div class="social-media"><i class="fa-brands fa-instagram"></i></div>
+                    <div class="social-media"><i class="fa-brands fa-whatsapp"></i></div>
+                    <div class="social-media"><i class="fa-regular fa-envelope"></i></div>
+                </div>
+            </div> 
+        </div>
+    </section>
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/d17c83b3d5.js" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="../app/main.js"></script>
+</body>
+</html>
